@@ -892,7 +892,8 @@ public class VPack {
         }
         for (final Entry<String, Object> entry : additionalFields.entrySet()) {
             final String key = entry.getKey();
-            if (!fields.containsKey(key)) {
+            final VPackCache.FieldInfo fieldInfo = fields.get(key);
+            if (fieldInfo == null || (!fieldInfo.isSerialize() && fieldInfo.isDeserialize())) {
                 final Object value = entry.getValue();
                 addValue(key, value != null ? value.getClass() : null, value, builder, null,
                         Collections.<String, Object>emptyMap());
